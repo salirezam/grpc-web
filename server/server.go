@@ -1,6 +1,6 @@
 package main
 
-import(
+import (
 	"context"
 	"fmt"
 	"log"
@@ -10,11 +10,11 @@ import(
 	"google.golang.org/grpc"
 )
 
-type server struct{
+type server struct {
 	messagepb.UnimplementedMessageServer
 }
 
-func (*server) SayHello(context context.Context, req *messagepb.MesaageRequest) (*messagepb.MessageResponse, error) {
+func (*server) SayHello(context context.Context, req *messagepb.MessageRequest) (*messagepb.MessageResponse, error) {
 	fmt.Println("Got a new Add request")
 	message := req.GetMessage()
 	helloMessage := fmt.Sprintf("Hello %s", message)
@@ -23,13 +23,13 @@ func (*server) SayHello(context context.Context, req *messagepb.MesaageRequest) 
 }
 
 func main() {
-	fmt.Println("Starting go drpc server")
+	fmt.Println("Starting go grpc server")
 	lis, err := net.Listen("tcp", "0.0.0.0:50888")
 
 	if err != nil {
 		log.Fatalf("Error while listening : %v", err)
 	}
- 
+
 	s := grpc.NewServer()
 	messagepb.RegisterMessageServer(s, &server{})
 	if err := s.Serve(lis); err != nil {

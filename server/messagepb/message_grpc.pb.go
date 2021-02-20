@@ -18,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MessageClient interface {
-	SayHello(ctx context.Context, in *MesaageRequest, opts ...grpc.CallOption) (*MessageResponse, error)
+	SayHello(ctx context.Context, in *MessageRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 }
 
 type messageClient struct {
@@ -29,7 +29,7 @@ func NewMessageClient(cc grpc.ClientConnInterface) MessageClient {
 	return &messageClient{cc}
 }
 
-func (c *messageClient) SayHello(ctx context.Context, in *MesaageRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
+func (c *messageClient) SayHello(ctx context.Context, in *MessageRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
 	out := new(MessageResponse)
 	err := c.cc.Invoke(ctx, "/message.Message/SayHello", in, out, opts...)
 	if err != nil {
@@ -42,7 +42,7 @@ func (c *messageClient) SayHello(ctx context.Context, in *MesaageRequest, opts .
 // All implementations must embed UnimplementedMessageServer
 // for forward compatibility
 type MessageServer interface {
-	SayHello(context.Context, *MesaageRequest) (*MessageResponse, error)
+	SayHello(context.Context, *MessageRequest) (*MessageResponse, error)
 	mustEmbedUnimplementedMessageServer()
 }
 
@@ -50,7 +50,7 @@ type MessageServer interface {
 type UnimplementedMessageServer struct {
 }
 
-func (UnimplementedMessageServer) SayHello(context.Context, *MesaageRequest) (*MessageResponse, error) {
+func (UnimplementedMessageServer) SayHello(context.Context, *MessageRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
 }
 func (UnimplementedMessageServer) mustEmbedUnimplementedMessageServer() {}
@@ -67,7 +67,7 @@ func RegisterMessageServer(s grpc.ServiceRegistrar, srv MessageServer) {
 }
 
 func _Message_SayHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MesaageRequest)
+	in := new(MessageRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -79,7 +79,7 @@ func _Message_SayHello_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: "/message.Message/SayHello",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MessageServer).SayHello(ctx, req.(*MesaageRequest))
+		return srv.(MessageServer).SayHello(ctx, req.(*MessageRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

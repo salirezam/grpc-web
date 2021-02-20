@@ -2,7 +2,7 @@ syntax = "proto3";
 package message;
 option go_package="github.com/salirezam/grpc-web/messagepb";
 
-message MesaageRequest {
+message MessageRequest {
   string message = 1;
 }
 
@@ -11,5 +11,5 @@ message MessageResponse {
 }
 
 service Message {
-  rpc SayHello(MesaageRequest) returns (MessageResponse) {};
+  rpc SayHello(MessageRequest) returns (MessageResponse) {};
 }
