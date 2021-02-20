@@ -23,7 +23,7 @@ func (*server) SayHello(context context.Context, req *messagepb.MesaageRequest) 
 }
 
 func main() {
-	fmt.Println("Starting Calculator server")
+	fmt.Println("Starting go drpc server")
 	lis, err := net.Listen("tcp", "0.0.0.0:50888")
 
 	if err != nil {
