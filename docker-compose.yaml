@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  server1:
+    build: 
+      context: .
+      dockerfile: server/Dockerfile
+    ports:
+      - "50888:50888" 
+    depends_on:
+      - envoy
+    networks:
+      default:
+        aliases:
+          - server1
+
+  client:
+    build: 
+      context: .
+      dockerfile: client/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - envoy
+      - server1
+    networks:
+      default:
+        aliases:
+          - client        
+
+  envoy:
+    build: 
+      context: .
+      dockerfile: envoy-proxy/Dockerfile
+    ports:
+      - "8080:8080"
+      - "9901:9901"
+    networks:
+      default:
+        aliases:
+          - envoy
