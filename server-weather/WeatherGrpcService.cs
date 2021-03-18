@@ -14,10 +14,6 @@ namespace server
         {
             this.logger = logger;
         }     
-        private static readonly string[] Summaries =
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
 
         private static readonly string[] Locations =
         {
