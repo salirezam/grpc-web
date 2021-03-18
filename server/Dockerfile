@@ -18,8 +18,10 @@ WORKDIR /grpc
 
 COPY . .
 RUN mkdir -p ./server/messagepb 
+RUN mkdir -p ./server/weather 
 
 RUN cd shared/protos && \
-    protoc --go_out=../../server/messagepb --go_opt=paths=source_relative --go-grpc_out=../../server/messagepb --go-grpc_opt=paths=source_relative message.proto
+    protoc --go_out=../../server/messagepb --go_opt=paths=source_relative --go-grpc_out=../../server/messagepb --go-grpc_opt=paths=source_relative message.proto && \
+    protoc --go_out=../../server/weather --go_opt=paths=source_relative --go-grpc_out=../../server/weather --go-grpc_opt=paths=source_relative weather.proto
 
 ENTRYPOINT cd server && go run server.go

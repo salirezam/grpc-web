@@ -1,12 +1,15 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
+	"math/rand"
 	"net"
 
+	"context"
+
 	"github.com/salirezam/grpc-web/messagepb"
+	"github.com/salirezam/grpc-web/weather"
 	"google.golang.org/grpc"
 )
 
@@ -15,9 +18,26 @@ type server struct {
 }
 
 func (*server) SayHello(context context.Context, req *messagepb.MessageRequest) (*messagepb.MessageResponse, error) {
+	fmt.Println("Connect to weather service")
+
+	var conn *grpc.ClientConn
+	conn, err := grpc.Dial("server-weather:5000", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("did not connect: %s", err)
+	}
+	defer conn.Close()
+
+	w := weather.NewWeatherServiceClient(conn)
+	num := int32(rand.Intn(5))
+
+	response, err := w.RequestCurrentWeatherData(context, &weather.WeatherRequest{Location: num})
+	if err != nil {
+		log.Fatalf("Error when calling RequestCurrentWeatherData: %s", err)
+	}
+
 	fmt.Println("Got a new Add request")
 	message := req.GetMessage()
-	helloMessage := fmt.Sprintf("Hello %s", message)
+	helloMessage := fmt.Sprintf("Hello %s, \nTemperature in %s is %d degrees", message, response.Location, response.Temperature)
 	result := &messagepb.MessageResponse{Result: helloMessage}
 	return result, nil
 }
