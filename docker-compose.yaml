@@ -9,10 +9,22 @@ services:
       - "50888:50888" 
     depends_on:
       - envoy
+      - server-weather
     networks:
       default:
         aliases:
           - server1
+
+  server-weather:
+    build: 
+      context: .
+      dockerfile: server-weather/Dockerfile
+    ports:
+      - "5000:5000" 
+    networks:
+      default:
+        aliases:
+          - server-weather
 
   client:
     build: 
