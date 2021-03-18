@@ -11,5 +11,9 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 client/node_modules
+server-weather/.vs
+server-weather/bin
+server-weather/obj
+server-weather/publish
 # Dependency directories (remove the comment below to include it)
 # vendor/
