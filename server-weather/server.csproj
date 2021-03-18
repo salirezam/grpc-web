@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Grpc.AspNetCore" Version="2.35.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.36.1" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+        <PackageReference Include="System.ServiceModel.Primitives" Version="4.8.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="..\shared\protos\weather.proto" GrpcServices="Server" OutputDir="..\server-weather\proto" PrivateAssets="All" />
+    </ItemGroup>
+</Project>
